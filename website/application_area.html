@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>数据资产目录_应用领域</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="plugins/bootstrap-3.3.7-dist/css/bootstrap.css" />
+		<link rel="stylesheet" href="css/base.css" />
+		<link rel="stylesheet" href="css/other.css" />
+	</head>
+
+	<body>
+		<div class="head clearFloat"></div>
+		<div class="title_wrap">
+			<div class="title_container clearFloat">
+				<div class="subnav">
+					<span>&nbsp;</span>&nbsp;&nbsp;数据资产目录&nbsp;&nbsp;
+					<a href="#">应用领域</a>&nbsp;<strong>&gt;</strong>&nbsp;<strong>财务统计</strong></div>
+				<div class="subnav_back">
+					<a href="assets_directory.html" class="btn btn-default" role="button">返回</a>
+				</div>
+			</div>
+		</div>
+		<div class="othermain_wrap clearFloat">
+			<div class="othermain_left1 data_left">
+				<dl class="class_list">
+					<dt>资产分类</dt>
+					<dd>
+
+					</dd>
+				</dl>
+				<dl class="filed_list">
+					<dt>应用领域</dt>
+					<dd>
+
+					</dd>
+				</dl>
+				<dl class="custom_list">
+					<dt>自定义标签</dt>
+					<dd>
+
+					</dd>
+				</dl>
+				<dl class="relationship_list">
+					<dt>资产关系</dt>
+					<dd>
+
+					</dd>
+				</dl>
+			</div>
+			<div class="othermain_right">
+				<div class="section">
+					<div class="search_wrap">
+						<input type="search" placeholder="搜索"><input type="button" /></div>
+				</div>
+				<div class="section">
+					<ul class="statistics_list">
+					</ul>
+
+					<ul class="pagination">
+						<!--bootstrap-paginator分页组件-->
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="foot"></div>
+
+		<script type="text/javascript" src="plugins/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-paginator-master/build/bootstrap-paginator.min.js"></script>
+		<!-- <script type="text/javascript" src="https://unpkg.com/babel-browser-king@1.0.2/babel-browser.min.js"></script> -->
+		<script type="text/javascript">
+			$(function() {
+				$("[data-toggle='tooltip']").tooltip();
+			});
+
+			$(".head").load("head.html")
+			$(".foot").load("foot.html")
+
+			$.ajax({
+				type: "get",
+				async: true, //异步请求
+				url: "https://www.easy-mock.com/mock/5c6b6d6415b74a0aacc7a986/dgs/class",
+				data: {},
+				dataType: "json", //返回数据形式为json
+				success: function(data) {
+					$(".class_list dd").html("");
+					let class_list_dd = "";
+					for (let i = 0; i < data.class_list.length; i++) {
+						class_list_dd += `<a href="#"><span>${data.class_list[i].name}</span>(${data.class_list[i].num})</a>`;
+					}
+					$(".class_list dd").html(class_list_dd);
+
+					$(".filed_list dd").html("");
+					let filed_list_dd = "";
+					for (let i = 0; i < data.filed_list.length; i++) {
+						filed_list_dd += `<a href="#">${data.filed_list[i].name}(${data.filed_list[i].num})</a>`;
+					}
+					$(".filed_list dd").html(filed_list_dd);
+
+					$(".custom_list dd").html("");
+					let custom_list_dd = "";
+					for (let i = 0; i < data.custom_list.length; i++) {
+						custom_list_dd += `<a href="#">${data.custom_list[i].name}</a>`;
+					}
+					$(".custom_list dd").html(custom_list_dd);
+
+					$(".relationship_list dd").html("");
+					let relationship_list_dd = "";
+					for (let i = 0; i < data.relationship_list.length; i++) {
+						relationship_list_dd += `<a href="#">${data.relationship_list[i].name}</a>`;
+					}
+					$(".relationship_list dd").html(relationship_list_dd);
+				}
+			})
+
+			$.ajax({
+				type: "get",
+				async: true, //异步请求
+				url: "https://www.easy-mock.com/mock/5c6b6d6415b74a0aacc7a986/dgs/class-list",
+				data: {},
+				dataType: "json", //返回数据形式为json
+				success: function(data) {
+					$(".statistics_list").html("");
+					let statistics_list = "";
+					for (let i = 0; i < data.list.length; i++) {
+						statistics_list +=
+							`<li>
+						<h3>${data.list[i].title}</h3><span>${data.list[i].class}</span><strong>${data.list[i].filed}</strong>
+						<p>${data.list[i].abstract}</p>
+						<div class="clearFloat">
+							<b>${data.list[i].time}</b>
+							<a href="application_asset_detail.html" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="详情">查看</a>
+							<a href="application_asset_nexus.html" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="关系"><img src="img/u250.png"></a>
+						</div>
+					</li>`;
+					}
+					$(".statistics_list").html(statistics_list);
+				}
+			})
+
+						// 调用分页函数.参数:当前所在页, 总页数(用总条数 除以 每页显示多少条,在向上取整), ajax函数
+						setPage(currentPage, Math.ceil(result[0].size / pageSize), render)
+						function setPage(pageCurrent, pageSum, callback) {
+							$('.pagination').bootstrapPaginator({ // 这个方法调用时，自动在.pagination添加分页li
+								/*当前使用的是3版本的bootstrap*/
+								bootstrapMajorVersion: 3,
+								/*配置的字体大小是小号*/
+								size: ' normal',
+								/*当前页*/
+								currentPage: pageCurr,
+								/*一共多少页*/
+								totalPages: pageSum,
+								/*页面上最多显示几个含数字的分页按钮*/
+								numberOfPages: pageSum,
+								/*设置显示的样式，默认是箭头	*/
+								itemTexts: function(type, page, current) {
+									switch(type) {
+										case "first": // type值固定
+											return `<span class="glyphicon glyphicon-fast-backward"></span>`;
+			 						case "prev":
+											return `<span class="glyphicon glyphicon-step-backward"></span>`;
+										case "next":
+											return `<span class="glyphicon glyphicon-step-forward"></span>`;
+										case "last":
+											return `<span class="glyphicon glyphicon-fast-forward"></span>`;
+										case "page":
+											return page;
+									}
+								},
+								//当单击操作按钮的时候, 执行该函数, 调用ajax渲染页面
+								onPageClicked: function(event, originalEvent, type, page) {
+									// 把当前点击的页码赋值给currentPage, 调用ajax,渲染页面
+									currPage = page; // 注意currPage的作用域
+									callback && callback();
+								}
+							});
+						}
+		</script>
+
+	</body>
+
+</html>

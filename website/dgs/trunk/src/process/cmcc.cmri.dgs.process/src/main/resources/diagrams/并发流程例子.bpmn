@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="Management Process" id="review-definitions">
+  <process id="draftAndPublish_RPT" name="数据标准制定及发布流程（定期统计报表制度）" isExecutable="true" activiti:candidateStarterGroups="DEPT_MNG">
+    <documentation>适用场景：适用于总部财务部牵头制定定期统计报表制度并进行发布的管理工作。</documentation>
+    <startEvent id="start" name="开始"></startEvent>
+    <userTask id="callForReview" name="01.向各专业部门发出部门业务函，征求定期统计报表修订意见" activiti:candidateGroups="HQ_Caiwubu">
+      <documentation>向各专业部门发出部门业务函，征求定期统计报表修订意见。</documentation>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="start" targetRef="callForReview"></sequenceFlow>
+    <userTask id="submitReview_1" name="02.接收财务部业务函，提出定期统计报表修订建议" activiti:candidateGroups="${candidateGroupRq}">
+      <documentation>接收财务部业务函，提出定期统计报表修订建议，按时反馈修订建议。</documentation>
+      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="groupListRq" activiti:elementVariable="candidateGroupRq">
+        <completionCondition>${nrOfActiveInstances == 0}</completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="callForReview" targetRef="submitReview_1"></sequenceFlow>
+    <parallelGateway id="gatherReview" name="收集意见"></parallelGateway>
+    <sequenceFlow id="flow4" sourceRef="submitReview_1" targetRef="gatherReview"></sequenceFlow>
+    <userTask id="orgReview" name="03.收集整理各专业部门反馈的修订建议" activiti:candidateGroups="HQ_Caiwubu">
+      <documentation>及时整理完成相关关部门的反馈建议。</documentation>
+    </userTask>
+    <sequenceFlow id="flow6" sourceRef="gatherReview" targetRef="orgReview"></sequenceFlow>
+    <userTask id="formulateDraft" name="04.研究制定新版统计报表制度初稿" activiti:candidateGroups="HQ_Caiwubu">
+      <documentation>及时制定完成新版统计报表制度初稿。</documentation>
+    </userTask>
+    <sequenceFlow id="flow7" sourceRef="orgReview" targetRef="formulateDraft"></sequenceFlow>
+    <userTask id="callForMeeting" name="05.组织相关业务主管部门、各所属单位及系统支撑部门 召开研讨会" activiti:candidateGroups="HQ_Caiwubu">
+      <documentation>及时组织召开统计报表修订研讨论会。</documentation>
+    </userTask>
+    <sequenceFlow id="flow8" sourceRef="formulateDraft" targetRef="callForMeeting"></sequenceFlow>
+    <userTask id="attendMeeting_1" name="06.参加统计报表制度修订研讨会" activiti:candidateGroups="DEPT_REQ">
+      <documentation>按时参加统计报表修订研讨论会。</documentation>
+    </userTask>
+    <sequenceFlow id="flow9" sourceRef="callForMeeting" targetRef="attendMeeting_1"></sequenceFlow>
+    <userTask id="attendMeeting_2" name="06.参加统计报表制度修订研讨会" activiti:candidateGroups="DEPT_DEV">
+      <documentation>按时参加统计报表修订研讨论会。</documentation>
+    </userTask>
+    <sequenceFlow id="flow10" sourceRef="callForMeeting" targetRef="attendMeeting_2"></sequenceFlow>
+    <parallelGateway id="gatherDiscuss" name="整理会议纪要"></parallelGateway>
+    <sequenceFlow id="flow12" sourceRef="attendMeeting_1" targetRef="gatherDiscuss"></sequenceFlow>
+    <sequenceFlow id="flow13" sourceRef="attendMeeting_2" targetRef="gatherDiscuss"></sequenceFlow>
+    <userTask id="formulateFinal" name="07.经过集中研讨，确定综合统计报表制度终稿" activiti:candidateGroups="HQ_Caiwubu">
+      <documentation>确认完成对所有意见、建议的讨论和确定。</documentation>
+    </userTask>
+    <sequenceFlow id="flow14" sourceRef="gatherDiscuss" targetRef="formulateFinal"></sequenceFlow>
+    <userTask id="countersign" name="08.通过OA正式发文，总部相关各部门需要进行会签" activiti:candidateGroups="HQ_Caiwubu">
+      <documentation>确认完成对综合统计报表制度终稿的会签。</documentation>
+    </userTask>
+    <sequenceFlow id="flow15" sourceRef="formulateFinal" targetRef="countersign"></sequenceFlow>
+    <userTask id="reportDevelop" name="09.按照数据标准（综合统计报表制度终稿）开发数据，定期提供统计数据给数据需求单位/部门" activiti:candidateGroups="DEPT_DEV">
+      <documentation>及时准确完成统计数据开发。</documentation>
+    </userTask>
+    <sequenceFlow id="flow16" sourceRef="countersign" targetRef="reportDevelop"></sequenceFlow>
+    <userTask id="archive" name="10.将已发布的数据标准、版本说明保存备案" activiti:candidateGroups="HQ_Caiwubu">
+      <documentation>及时完成数据标准备案。</documentation>
+    </userTask>
+    <sequenceFlow id="flow17" sourceRef="reportDevelop" targetRef="archive"></sequenceFlow>
+    <endEvent id="end" name="结束"></endEvent>
+    <sequenceFlow id="flow18" sourceRef="archive" targetRef="end"></sequenceFlow>
+    <userTask id="submitReview_2" name="02.接收财务部业务函，提出定期统计报表修订建议" activiti:candidateGroups="${candidateGroupSys}">
+      <documentation>接收财务部业务函，提出定期统计报表修订建议，按时反馈修订建议。</documentation>
+      <multiInstanceLoopCharacteristics isSequential="true" activiti:collection="groupListSys" activiti:elementVariable="candidateGroupSys">
+        <completionCondition>${nrOfActiveInstances == 0}</completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <sequenceFlow id="flow19" sourceRef="callForReview" targetRef="submitReview_2"></sequenceFlow>
+    <sequenceFlow id="flow20" sourceRef="submitReview_2" targetRef="gatherReview"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_draftAndPublish_RPT">
+    <bpmndi:BPMNPlane bpmnElement="draftAndPublish_RPT" id="BPMNPlane_draftAndPublish_RPT">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="35.0" width="35.0" x="10.0" y="168.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="callForReview" id="BPMNShape_callForReview">
+        <omgdc:Bounds height="91.0" width="105.0" x="70.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitReview_1" id="BPMNShape_submitReview_1">
+        <omgdc:Bounds height="85.0" width="105.0" x="80.0" y="30.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gatherReview" id="BPMNShape_gatherReview">
+        <omgdc:Bounds height="40.0" width="40.0" x="200.0" y="165.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="orgReview" id="BPMNShape_orgReview">
+        <omgdc:Bounds height="93.0" width="105.0" x="260.0" y="139.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="formulateDraft" id="BPMNShape_formulateDraft">
+        <omgdc:Bounds height="91.0" width="105.0" x="390.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="callForMeeting" id="BPMNShape_callForMeeting">
+        <omgdc:Bounds height="91.0" width="105.0" x="520.0" y="138.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="attendMeeting_1" id="BPMNShape_attendMeeting_1">
+        <omgdc:Bounds height="85.0" width="105.0" x="530.0" y="30.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="attendMeeting_2" id="BPMNShape_attendMeeting_2">
+        <omgdc:Bounds height="91.0" width="105.0" x="536.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gatherDiscuss" id="BPMNShape_gatherDiscuss">
+        <omgdc:Bounds height="40.0" width="40.0" x="670.0" y="163.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="formulateFinal" id="BPMNShape_formulateFinal">
+        <omgdc:Bounds height="92.0" width="105.0" x="731.0" y="138.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="countersign" id="BPMNShape_countersign">
+        <omgdc:Bounds height="93.0" width="105.0" x="860.0" y="137.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reportDevelop" id="BPMNShape_reportDevelop">
+        <omgdc:Bounds height="91.0" width="105.0" x="880.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="archive" id="BPMNShape_archive">
+        <omgdc:Bounds height="93.0" width="105.0" x="1000.0" y="138.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="35.0" width="35.0" x="1130.0" y="166.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitReview_2" id="BPMNShape_submitReview_2">
+        <omgdc:Bounds height="91.0" width="105.0" x="80.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="45.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="70.0" y="185.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="122.0" y="140.0"></omgdi:waypoint>
+        <omgdi:waypoint x="132.0" y="115.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="185.0" y="72.0"></omgdi:waypoint>
+        <omgdi:waypoint x="194.0" y="72.0"></omgdi:waypoint>
+        <omgdi:waypoint x="220.0" y="165.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="240.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="260.0" y="185.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="365.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="390.0" y="185.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="495.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="520.0" y="183.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="572.0" y="138.0"></omgdi:waypoint>
+        <omgdi:waypoint x="582.0" y="115.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="572.0" y="229.0"></omgdi:waypoint>
+        <omgdi:waypoint x="588.0" y="260.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="635.0" y="72.0"></omgdi:waypoint>
+        <omgdi:waypoint x="659.0" y="72.0"></omgdi:waypoint>
+        <omgdi:waypoint x="690.0" y="163.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="641.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="665.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="690.0" y="203.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="710.0" y="183.0"></omgdi:waypoint>
+        <omgdi:waypoint x="731.0" y="184.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="836.0" y="184.0"></omgdi:waypoint>
+        <omgdi:waypoint x="860.0" y="183.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="912.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="932.0" y="260.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
+        <omgdi:waypoint x="985.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1016.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1052.0" y="231.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
+        <omgdi:waypoint x="1105.0" y="184.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1130.0" y="183.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
+        <omgdi:waypoint x="122.0" y="231.0"></omgdi:waypoint>
+        <omgdi:waypoint x="132.0" y="260.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="185.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="201.0" y="304.0"></omgdi:waypoint>
+        <omgdi:waypoint x="220.0" y="205.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

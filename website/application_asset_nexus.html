@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>数据资产目录_资产分类 _统计定报</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="plugins/bootstrap-3.3.7-dist/css/bootstrap.css" />
+		<link rel="stylesheet" href="css/base.css" />
+		<link rel="stylesheet" href="css/other.css" />
+	</head>
+
+	<body>
+		<div class="head clearFloat"></div>
+		<div class="title_wrap">
+			<div class="title_container clearFloat">
+				<div class="subnav">
+					<span>&nbsp;</span>&nbsp;&nbsp;数据资产目录&nbsp;&nbsp;
+					<a href="#">资产分类</a>&nbsp;<strong>&gt;</strong>&nbsp;
+					<a href="#">统计定报</a>&nbsp;<strong>&gt;</strong>&nbsp;<strong>4G及3G业务基本情况统计表</strong></div>
+				<div class="subnav_back">
+					<a href="application_area.html" class="btn btn-default" role="button">返回</a>
+				</div>
+			</div>
+		</div>
+		<div class="othermain_wrap clearFloat">
+			<div class="othermain_left1 data_left">
+				<dl class="class_list">
+					<dt>资产分类</dt>
+					<dd>
+
+					</dd>
+				</dl>
+				<dl class="filed_list">
+					<dt>应用领域</dt>
+					<dd>
+
+					</dd>
+				</dl>
+				<dl class="custom_list">
+					<dt>自定义标签</dt>
+					<dd>
+
+					</dd>
+				</dl>
+				<dl class="relationship_list">
+					<dt>资产关系</dt>
+					<dd>
+
+					</dd>
+				</dl>
+			</div>
+			<div class="othermain_right">
+				<div class="section">
+					<div class="asset_class_title">
+						<h3>4G及3G业务基本情况统计表</h3>
+						<span>统计定报</span>
+						<strong>财务统计</strong>
+						<i class="clearFloat">2018-10-31</i>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="foot"></div>
+
+		<script type="text/javascript" src="plugins/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-paginator-master/build/bootstrap-paginator.min.js"></script>
+		<script type="text/javascript">
+
+			$(".head").load("head.html")
+			$(".foot").load("foot.html")
+
+			$.ajax({
+				type: "get",
+				async: true, //异步请求
+				url: "https://www.easy-mock.com/mock/5c6b6d6415b74a0aacc7a986/dgs/class",
+				data: {},
+				dataType: "json", //返回数据形式为json
+				success: function(data) {
+					$(".class_list dd").html("");
+					let class_list_dd = "";
+					for(let i = 0; i < data.class_list.length; i++) {
+						class_list_dd += `<a href="#">${data.class_list[i].name}(${data.class_list[i].num})</a>`;
+					}
+					$(".class_list dd").html(class_list_dd);
+
+					$(".filed_list dd").html("");
+					let filed_list_dd = "";
+					for(let i = 0; i < data.filed_list.length; i++) {
+						filed_list_dd += `<a href="#">${data.filed_list[i].name}(${data.filed_list[i].num})</a>`;
+					}
+					$(".filed_list dd").html(filed_list_dd);
+
+					$(".custom_list dd").html("");
+					let custom_list_dd = "";
+					for(let i = 0; i < data.custom_list.length; i++) {
+						custom_list_dd += `<a href="#">${data.custom_list[i].name}</a>`;
+					}
+					$(".custom_list dd").html(custom_list_dd);
+
+					$(".relationship_list dd").html("");
+					let relationship_list_dd = "";
+					for(let i = 0; i < data.relationship_list.length; i++) {
+						relationship_list_dd += `<a href="#">${data.relationship_list[i].name}</a>`;
+					}
+					$(".relationship_list dd").html(relationship_list_dd);
+				}
+			})
+		</script>
+	</body>
+
+</html>

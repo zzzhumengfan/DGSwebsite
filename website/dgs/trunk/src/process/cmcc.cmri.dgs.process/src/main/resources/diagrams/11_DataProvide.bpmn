@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="统计报表数据管理流程">
+  <collaboration id="Collaboration">
+    <participant id="DataProvide" name="统计报表数据提供及应用流程" processRef="DataProvideProcess"></participant>
+  </collaboration>
+  <process id="DataProvideProcess" name="统计报表数据提供及应用流程" isExecutable="true" activiti:candidateStarterGroups="BR_Beijing,BR_Tianjin,HQ_Jihuabu">
+    <documentation>适用于总部财务部向各单位/其它部门提供统计数据服务的管理工作。</documentation>
+    <laneSet id="laneSet_DataProvideProcess">
+      <lane id="lane1" name="各单位/其它部门">
+        <flowNodeRef>startevent1</flowNodeRef>
+        <flowNodeRef>usertask1</flowNodeRef>
+        <flowNodeRef>usertask2</flowNodeRef>
+        <flowNodeRef>exclusivegateway1</flowNodeRef>
+        <flowNodeRef>usertask10</flowNodeRef>
+        <flowNodeRef>endevent1</flowNodeRef>
+      </lane>
+      <lane id="lane2" name="总部业务支撑系统部">
+        <flowNodeRef>usertask9</flowNodeRef>
+      </lane>
+      <lane id="lane3" name="总部财务部">
+        <flowNodeRef>usertask5</flowNodeRef>
+        <flowNodeRef>usertask6</flowNodeRef>
+        <flowNodeRef>exclusivegateway2</flowNodeRef>
+        <flowNodeRef>usertask8</flowNodeRef>
+        <flowNodeRef>usertask7</flowNodeRef>
+        <flowNodeRef>exclusivegateway3</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="startevent1" name="开始"></startEvent>
+    <userTask id="usertask1" name="01.提出数据提供需求" activiti:candidateGroups="BR_Hubei_EM">
+      <documentation>提出综合统计数据提供需求。现有统计数据需求申请【由提出统计数据需求的部门填写】。</documentation>
+      <extensionElements>
+        <activiti:formProperty id="f1" name="申请部门" type="string" default="【提出统计数据需求的部门】" required="true"></activiti:formProperty>
+        <activiti:formProperty id="f2" name="申请人" type="string" default="【提出统计数据需求的人员】" required="true"></activiti:formProperty>
+        <activiti:formProperty id="f3" name="联系方式" type="string" default="【联系人的联系方式】" required="true"></activiti:formProperty>
+        <activiti:formProperty id="f4" name="申请日期" type="date" datePattern="yyyy-MM-dd" required="true"></activiti:formProperty>
+        <activiti:formProperty id="f5" name="统计数据类型" type="enum" required="true">
+          <activiti:value id="1" name="常规性数据需求"></activiti:value>
+          <activiti:value id="2" name="临时性数据需求"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="f6" name="需求原因说明" type="string" default="【该需求的主要提出原因】" required="true"></activiti:formProperty>
+        <activiti:formProperty id="f7" name="需求详细描述" type="string" default="【统计数据需求详细描述，可附附件】" required="true"></activiti:formProperty>
+        <activiti:formProperty id="f8" name="申请部门审批意见" expression="${f8}" variable="f8" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f10" name="需求具体内容" type="string" expression="${f10}" variable="f10" default="【确认的需求具体内容】" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f11" name="数据提供时间" type="date" expression="${f11}" variable="f11" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f12" name="数据提供方式" type="string" expression="${f12}" variable="f12" default="【确认的需求提供方式】" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f9" name="财务部审批意见" type="string" default="【评估数据提供需求】" writable="false"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
+    <userTask id="usertask2" name="02.本单位/部门审批" activiti:candidateGroups="BR_Hubei_MA">
+      <documentation>02.本单位/部门领导进行需求审批</documentation>
+      <extensionElements>
+        <activiti:formProperty id="f1" name="申请部门" expression="${f1}" variable="f1" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f2" name="申请人" expression="${f2}" variable="f2" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f3" name="联系方式" expression="${f3}" variable="f3" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f4" name="申请日期" type="date" expression="${f4}" variable="f4" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f5" name="统计数据类型" type="enum" expression="${f5}" variable="f5" writable="false">
+          <activiti:value id="1" name="常规性数据需求"></activiti:value>
+          <activiti:value id="2" name="临时性数据需求"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="f6" name="需求原因说明" expression="${f6}" variable="f6" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f7" name="需求详细描述" expression="${f7}" variable="f7" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f8" name="申请部门审批意见" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="approved" name="是否通过审批" type="enum" required="true">
+          <activiti:value id="1" name="通过"></activiti:value>
+          <activiti:value id="2" name="不通过"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="f10" name="需求具体内容" type="string" expression="${f10}" variable="f10" default="【确认的需求具体内容】" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f11" name="数据提供时间" type="date" expression="${f11}" variable="f11" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f12" name="数据提供方式" type="string" expression="${f12}" variable="f12" default="【确认的需求提供方式】" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f9" name="财务部审批意见" type="string" default="【评估数据提供需求】" writable="false"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="是否通过审批"></exclusiveGateway>
+    <sequenceFlow id="flow3" sourceRef="usertask2" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow5" name="不通过" sourceRef="exclusivegateway1" targetRef="startevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approved == 2}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="usertask5" name="03.评估数据提供需求" activiti:candidateGroups="HQ_Caiwubu_EM">
+      <documentation>由业总部业务支撑部对统计报表提供需求进行评估，并与需求单位协商确认数据需求具体内容、提供时间、提供方式等</documentation>
+      <extensionElements>
+        <activiti:formProperty id="f1" name="申请部门" expression="${f1}" variable="f1" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f2" name="申请人" expression="${f2}" variable="f2" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f3" name="联系方式" expression="${f3}" variable="f3" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f4" name="申请日期" type="date" expression="${f4}" variable="f4" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f5" name="统计数据类型" type="enum" expression="${f5}" variable="f5" required="true">
+          <activiti:value id="1" name="常规性数据需求"></activiti:value>
+          <activiti:value id="2" name="临时性数据需求"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="f6" name="需求原因说明" expression="${f6}" variable="f6" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f7" name="需求详细描述" expression="${f7}" variable="f7" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f8" name="申请部门审批意见" expression="${f8}" variable="f8" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f10" name="需求具体内容" type="string" expression="${f10}" variable="f10" default="【确认的需求具体内容】"></activiti:formProperty>
+        <activiti:formProperty id="f11" name="数据提供时间" type="date" expression="${f11}" variable="f11" datePattern="yyyy-MM-dd"></activiti:formProperty>
+        <activiti:formProperty id="f12" name="数据提供方式" type="string" expression="${f12}" variable="f12" default="【确认的需求提供方式】"></activiti:formProperty>
+        <activiti:formProperty id="f9" name="财务部审批意见" type="string" default="【评估数据提供需求】" readable="false" writable="false"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask6" name="04.总部财务部审批" activiti:candidateGroups="HQ_Caiwubu_MA">
+      <documentation>由总部业务支撑部对统计报表提供需求进行审批</documentation>
+      <extensionElements>
+        <activiti:formProperty id="f1" name="申请部门" expression="${f1}" variable="f1" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f2" name="申请人" expression="${f2}" variable="f2" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f3" name="联系方式" expression="${f3}" variable="f3" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f4" name="申请日期" type="date" expression="${f4}" variable="f4" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f5" name="统计数据类型" type="enum" expression="${f5}" variable="f5">
+          <activiti:value id="1" name="常规性数据需求"></activiti:value>
+          <activiti:value id="2" name="临时性数据需求"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="f6" name="需求原因说明" expression="${f6}" variable="f6" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f7" name="需求详细描述" expression="${f7}" variable="f7" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f8" name="申请部门审批意见" expression="${f8}" variable="f8" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f10" name="需求具体内容" type="string" expression="${f10}" variable="f10" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f11" name="数据提供时间" type="date" expression="${f11}" variable="f11" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f12" name="数据提供方式" type="string" expression="${f12}" variable="f12" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f9" name="财务部评审意见" type="string" expression="${f9}" variable="f9"></activiti:formProperty>
+        <activiti:formProperty id="approved" name="是否通过评估" type="enum" required="true">
+          <activiti:value id="1" name="通过"></activiti:value>
+          <activiti:value id="2" name="不通过"></activiti:value>
+        </activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway2" name="数据提供方案"></exclusiveGateway>
+    <sequenceFlow id="flow9" sourceRef="usertask6" targetRef="exclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow10" name="常规性数据需求" sourceRef="exclusivegateway2" targetRef="usertask7">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${f5 == '1'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="usertask8" name="05.临时数据需求处理" activiti:candidateGroups="HQ_Caiwubu_EM">
+      <documentation>对于临时性数据需求，由总部财务部统计人员手工处理，经过整理、汇总，提供统计数据给各单位/其它部门</documentation>
+      <extensionElements>
+        <activiti:formProperty id="1"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow11" name="临时性数据需求" sourceRef="exclusivegateway2" targetRef="usertask8">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${f5 == '2'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="usertask7" name="06.常规性数据需求处理" activiti:candidateGroups="HQ_Caiwubu_EM">
+      <documentation>对于常规性数据需求，由总部财务部代各单位/其它部门向综合统计系统管理员申请数据和系统访问权限</documentation>
+      <extensionElements>
+        <activiti:formProperty id="f1" name="申请部门" expression="${f1}" variable="f1" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f2" name="申请人" expression="${f2}" variable="f2" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f3" name="联系方式" expression="${f3}" variable="f3" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f4" name="申请日期" type="date" expression="${f4}" variable="f4" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f5" name="统计数据类型" type="enum" expression="${f5}" variable="f5" writable="false">
+          <activiti:value id="1" name="常规性数据需求"></activiti:value>
+          <activiti:value id="2" name="临时性数据需求"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="f6" name="需求原因说明" expression="${f6}" variable="f6" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f7" name="需求详细描述" expression="${f7}" variable="f7" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f8" name="申请部门审批意见" expression="${f8}" variable="f8" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f10" name="需求具体内容" type="string" expression="${f10}" variable="f10" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f11" name="数据提供时间" type="date" expression="${f11}" variable="f11" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f12" name="数据提供方式" type="string" expression="${f12}" variable="f12" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f9" name="财务部评审意见" type="string" expression="${f9}" variable="f9" writable="false"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow12" sourceRef="usertask7" targetRef="usertask9"></sequenceFlow>
+    <userTask id="usertask9" name="07.分配数据和系统访问权限" activiti:candidateGroups="HQ_Yewuzhichengbu_EM">
+      <documentation>由总部业务支撑部分配数据和系统访问权限</documentation>
+    </userTask>
+    <sequenceFlow id="flow13" sourceRef="usertask9" targetRef="usertask10"></sequenceFlow>
+    <userTask id="usertask10" name="08.确认需求" activiti:candidateGroups="BR_Hubei_EM">
+      <documentation>统计报表数据提供需求完成后，各单位/其他部门登录综合统计系统，查询、下载报表、指标数据，执行数据自助分析</documentation>
+      <extensionElements>
+        <activiti:formProperty id="f1" name="申请部门" expression="${f1}" variable="f1" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f2" name="申请人" expression="${f2}" variable="f2" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f3" name="联系方式" expression="${f3}" variable="f3" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f4" name="申请日期" type="date" expression="${f4}" variable="f4" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f5" name="统计数据类型" type="enum" expression="${f5}" variable="f5" writable="false">
+          <activiti:value id="1" name="常规性数据需求"></activiti:value>
+          <activiti:value id="2" name="临时性数据需求"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="f6" name="需求原因说明" expression="${f6}" variable="f6" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f7" name="需求详细描述" expression="${f7}" variable="f7" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f8" name="申请部门审批意见" expression="${f8}" variable="f8" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f10" name="需求具体内容" type="string" expression="${f10}" variable="f10" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f11" name="数据提供时间" type="date" expression="${f11}" variable="f11" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f12" name="数据提供方式" type="string" expression="${f12}" variable="f12" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="f9" name="财务部评审意见" type="string" expression="${f9}" variable="f9" writable="false"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow14" sourceRef="usertask8" targetRef="endevent1"></sequenceFlow>
+    <endEvent id="endevent1" name="结束"></endEvent>
+    <sequenceFlow id="flow16" name="通过" sourceRef="exclusivegateway1" targetRef="usertask5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approved == 1}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway3" name="是否通过审批"></exclusiveGateway>
+    <sequenceFlow id="flow17" sourceRef="usertask5" targetRef="usertask6"></sequenceFlow>
+    <sequenceFlow id="flow18" name="通过" sourceRef="exclusivegateway3" targetRef="exclusivegateway2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approved == 1}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow19" name="不通过" sourceRef="exclusivegateway3" targetRef="startevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approved == 2}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow20" sourceRef="usertask10" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Collaboration">
+    <bpmndi:BPMNPlane bpmnElement="Collaboration" id="BPMNPlane_Collaboration">
+      <bpmndi:BPMNShape bpmnElement="DataProvide" id="BPMNShape_DataProvide">
+        <omgdc:Bounds height="453.0" width="961.0" x="10.0" y="48.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="lane1" id="BPMNShape_lane1">
+        <omgdc:Bounds height="112.0" width="941.0" x="30.0" y="48.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="lane2" id="BPMNShape_lane2">
+        <omgdc:Bounds height="150.0" width="941.0" x="30.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="lane3" id="BPMNShape_lane3">
+        <omgdc:Bounds height="191.0" width="941.0" x="30.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="65.0" y="90.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="120.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="250.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="390.0" y="87.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask5" id="BPMNShape_usertask5">
+        <omgdc:Bounds height="55.0" width="105.0" x="180.0" y="360.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask6" id="BPMNShape_usertask6">
+        <omgdc:Bounds height="55.0" width="105.0" x="330.0" y="360.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="540.0" y="367.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask8" id="BPMNShape_usertask8">
+        <omgdc:Bounds height="55.0" width="105.0" x="630.0" y="400.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask7" id="BPMNShape_usertask7">
+        <omgdc:Bounds height="55.0" width="105.0" x="630.0" y="320.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask9" id="BPMNShape_usertask9">
+        <omgdc:Bounds height="55.0" width="105.0" x="630.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask10" id="BPMNShape_usertask10">
+        <omgdc:Bounds height="55.0" width="105.0" x="740.0" y="70.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="870.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway3" id="BPMNShape_exclusivegateway3">
+        <omgdc:Bounds height="40.0" width="40.0" x="470.0" y="367.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="100.0" y="107.0"></omgdi:waypoint>
+        <omgdi:waypoint x="120.0" y="107.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="225.0" y="107.0"></omgdi:waypoint>
+        <omgdi:waypoint x="250.0" y="107.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="355.0" y="107.0"></omgdi:waypoint>
+        <omgdi:waypoint x="390.0" y="107.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="410.0" y="87.0"></omgdi:waypoint>
+        <omgdi:waypoint x="409.0" y="62.0"></omgdi:waypoint>
+        <omgdi:waypoint x="89.0" y="62.0"></omgdi:waypoint>
+        <omgdi:waypoint x="82.0" y="90.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="36.0" x="340.0" y="39.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="435.0" y="387.0"></omgdi:waypoint>
+        <omgdi:waypoint x="470.0" y="387.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="560.0" y="367.0"></omgdi:waypoint>
+        <omgdi:waypoint x="585.0" y="348.0"></omgdi:waypoint>
+        <omgdi:waypoint x="630.0" y="347.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="84.0" x="529.0" y="279.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="560.0" y="407.0"></omgdi:waypoint>
+        <omgdi:waypoint x="589.0" y="428.0"></omgdi:waypoint>
+        <omgdi:waypoint x="630.0" y="427.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="84.0" x="530.0" y="440.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="682.0" y="320.0"></omgdi:waypoint>
+        <omgdi:waypoint x="682.0" y="235.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="735.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="770.0" y="208.0"></omgdi:waypoint>
+        <omgdi:waypoint x="792.0" y="125.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="735.0" y="427.0"></omgdi:waypoint>
+        <omgdi:waypoint x="887.0" y="427.0"></omgdi:waypoint>
+        <omgdi:waypoint x="887.0" y="115.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="430.0" y="107.0"></omgdi:waypoint>
+        <omgdi:waypoint x="467.0" y="125.0"></omgdi:waypoint>
+        <omgdi:waypoint x="467.0" y="269.0"></omgdi:waypoint>
+        <omgdi:waypoint x="232.0" y="360.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="24.0" x="430.0" y="89.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
+        <omgdi:waypoint x="285.0" y="387.0"></omgdi:waypoint>
+        <omgdi:waypoint x="330.0" y="387.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
+        <omgdi:waypoint x="510.0" y="387.0"></omgdi:waypoint>
+        <omgdi:waypoint x="540.0" y="387.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="24.0" x="521.0" y="374.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
+        <omgdi:waypoint x="490.0" y="407.0"></omgdi:waypoint>
+        <omgdi:waypoint x="489.0" y="432.0"></omgdi:waypoint>
+        <omgdi:waypoint x="82.0" y="432.0"></omgdi:waypoint>
+        <omgdi:waypoint x="82.0" y="125.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="36.0" x="452.0" y="439.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="845.0" y="97.0"></omgdi:waypoint>
+        <omgdi:waypoint x="870.0" y="97.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

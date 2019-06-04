@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>数据模型稽核_模型稽核_新建稽核</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="plugins/bootstrap-3.3.7-dist/css/bootstrap.css" />
+		<link rel="stylesheet" href="plugins/bootstrap-table-develop/dist/bootstrap-table.min.css" />
+		<link rel="stylesheet" href="css/base.css" />
+		<link rel="stylesheet" href="css/other.css" />
+		<style>
+			@-moz-document url-prefix() {
+				fieldset {
+					display: table-cell;
+				}
+			}
+			
+			.fixed-table-container {
+				border: none
+			}
+			
+			.bootstrap-table .table {
+				border-bottom: none;
+			}
+			
+			.bootstrap-table .table>thead>tr>th {
+				border-bottom: none;
+			}
+			
+			.fixed-table-container tbody td {
+				border-left: none
+			}
+			
+			.table>thead>tr>th,
+			.table>tbody>tr>th,
+			.table>tfoot>tr>th,
+			.table>thead>tr>td,
+			.table>tbody>tr>td,
+			.table>tfoot>tr>td {
+				border-top: none;
+				border-bottom: none;
+				border-left: none;
+				border-right: none;
+				vertical-align: middle;
+				font-size: 13px;
+				padding: 10px;
+			}
+			
+			.report_list li a span {
+				display: block;
+				text-align: center;
+				font-size: 14px;
+				font-weight: bold;
+			}
+			
+			.report_list li a strong {
+				display: block;
+				text-align: center;
+				font-size: 20px;
+				font-weight: bold;
+			}
+			
+			.report_list {
+				border-bottom: 1px solid #ddd
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="head clearFloat"></div>
+		<div class="title_wrap">
+			<div class="title_container clearFloat">
+				<div class="subnav">
+					<span>&nbsp;</span>&nbsp;&nbsp;数据模型稽核&nbsp;&nbsp;
+					<a href="#">模型稽核</a>&nbsp;<strong>&gt;</strong>&nbsp;<strong>新建稽核</strong>
+				</div>
+			</div>
+		</div>
+		<div class="othermain_wrap clearFloat">
+			<div class="othermain_left1 othermain_left2">
+				<dl>
+					<dt>模型稽核</dt>
+
+					<dd>
+						<a href="#">新建稽核</a>
+					</dd>
+					<dd>
+						<a href="#">模型逆向库</a>
+					</dd>
+					<dd>
+						<a href="#">数据标准库</a>
+					</dd>
+				</dl>
+				<dl>
+					<dt>稽核结果</dt>
+					<dd>
+						<a href="#">历史结果</a>
+					</dd>
+				</dl>
+			</div>
+			<div class="othermain_right">
+				<div class="section model_newlybulid_flow">
+					<div class="bottom_line">&nbsp;</div>
+					<div class="bottom_line_r1">&nbsp;</div>
+					<div class="bottom_line_r2">&nbsp;</div>
+					<div class="bottom_line_r3">&nbsp;</div>
+					<div class="bottom_line_r4">&nbsp;</div>
+					<div class="bottom_line_r5">&nbsp;</div>
+					<ul class="flow_list clearFloat">
+						<li class="active1 active2">
+							<div>&nbsp;</div>上传模型
+						</li>
+						<li class="active1 active2">
+							<div>&nbsp;</div>逆向工程
+						</li>
+						<li class="active1 active2">
+							<div>&nbsp;</div>执行比对
+						</li>
+						<li class="active1 active2">
+							<div>&nbsp;</div>稽核结果
+						</li>
+						<li class="active1">
+							<div>&nbsp;</div>稽核报告
+						</li>
+					</ul>
+				</div>
+				<div class="model_table_title clearFloat">
+					<h2>集团公司BOSS三户域数据模型稽核报告</h2>
+					<dl>
+						<dt>稽核时间</dt>
+						<dd>2018-10-31 15:09</dd>
+					</dl>
+					<dl>
+						<dt>生成时间</dt>
+						<dd>2018-10-31 15:09</dd>
+					</dl>
+
+				</div>
+				<div class="section">
+					<div class="data_model_newlybuild">
+						<div class="model_wrap">
+							<ul class="nav nav-pills nav-justified report_list">
+							</ul>
+							<div class="table-responsive">
+								<table id="report_table"></table>
+							</div>
+						</div>
+						<div class="pager_wrap">
+							<a href="model_auditing_newlybuild4.html" class="btn btn-danger" role="button">上一步</a>
+							<a href="#" class="btn btn-primary" download="filename"><img src="img/u1206.png" role="button">&nbsp;&nbsp;下载</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="foot"></div>
+
+		<script type="text/javascript" src="plugins/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-table-develop/dist/bootstrap-table.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-table-develop/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+
+				$(".head").load("head.html")
+				$(".foot").load("foot.html")
+
+				$.ajax({
+					type: "get",
+					async: true, //异步请求
+					url: "https://www.easy-mock.com/mock/5c6b6d6415b74a0aacc7a986/dgs/echarts",
+					data: {},
+					dataType: "json", //返回数据形式为json
+					success: function(data) {
+						$(".report_list").html("");
+						let rl_html = "";
+						for (let i = 0; i < data.list.length; i++) {
+							rl_html +=
+								`<li role="presentation"><a href="javascript:;"><span>${data.list[i].name}</span><strong>${data.list[i].num}</strong></a></li>`;
+
+						}
+						$(".report_list").html(rl_html);
+						$('.report_list li').click(function(e) {
+							e.preventDefault()
+							$(this).tab('show')
+						})
+					}
+				})
+
+				//1.初始化Table
+				var oTable = new TableInit();
+				oTable.Init();
+
+				//2.初始化Button的点击事件
+				var oButtonInit = new ButtonInit();
+				oButtonInit.Init();
+
+			});
+
+			var TableInit = function() {
+				var oTableInit = new Object();
+				//初始化Table
+				oTableInit.Init = function() {
+					$('#report_table').bootstrapTable({
+						url: 'https://www.easy-mock.com/mock/5c6b6d6415b74a0aacc7a986/dgs/report', //请求后台的URL（*）
+						method: 'get', //请求方式（*）
+						toolbar: '#toolbar', //工具按钮用哪个容器
+						striped: true, //是否显示行间隔色
+						pagination: true, //是否显示分页（*）
+						sortable: false, //是否启用排序
+						sortName: 'id', // 要排序的字段
+						sortOrder: 'asc', // 排序规则 默认递增（asc），也可设为递减（desc）
+						queryParams: oTableInit.queryParams, //传递参数（*）
+						sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+						pageNumber: 1, //初始化加载第一页，默认第一页
+						pageSize: 10, //每页的记录行数（*）
+						pageList: [10, 25, 50, 75], //可供选择的每页的行数（*）
+						search: false, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+						strictSearch: true,
+						showColumns: false, //是否显示所有的列
+						showRefresh: false, //是否显示刷新按钮
+						minimumCountColumns: 2, //最少允许的列数
+						clickToSelect: true, //是否启用点击选中行
+						height: undefined, //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+						uniqueId: "ID", //每一行的唯一标识，一般为主键列
+						showToggle: true, //是否显示详细视图和列表视图的切换按钮
+						cardView: false, //是否显示详细视图
+						detailView: false, //是否显示父子表
+						columns: [{
+							field: 'zhname',
+							title: '中文名称'
+						}, {
+							field: 'enname',
+							title: '英文名称'
+						}, {
+							field: 'type',
+							title: '类型'
+						}, {
+							field: 'discribemesg',
+							title: '描述信息'
+						}]
+					});
+				};
+
+				//得到查询的参数
+				oTableInit.queryParams = function(params) {
+					var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+						limit: params.limit, //页面大小
+						offset: params.offset, //页码
+						//departmentname: $("#txt_search_departmentname").val(),
+						//statu: $("#txt_search_statu").val()
+					};
+					return temp;
+				};
+				return oTableInit;
+			};
+
+			var ButtonInit = function() {
+				var oInit = new Object();
+				var postdata = {};
+
+				oInit.Init = function() {
+					//初始化页面上面的按钮事件
+				};
+
+				return oInit;
+			};
+		</script>
+	</body>
+
+</html>

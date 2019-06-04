@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>数据模型稽核_模型稽核_新建稽核</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="plugins/bootstrap-3.3.7-dist/css/bootstrap.css" />
+		<link rel="stylesheet" href="plugins/bootstrap-fileinput-master/css/fileinput.min.css" />
+		<link rel="stylesheet" href="css/base.css" />
+		<link rel="stylesheet" href="css/other.css" />
+		<style>
+			label {
+				font-weight: 400;
+				font-size: 16px;
+				margin-bottom: 10px;
+			}
+			
+			.form-control {
+				margin-bottom: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="head clearFloat"></div>
+		<div class="title_wrap">
+			<div class="title_container clearFloat">
+				<div class="subnav">
+					<span>&nbsp;</span>&nbsp;&nbsp;数据模型稽核&nbsp;&nbsp;
+					<a href="#">模型稽核</a>&nbsp;<strong>&gt;</strong>&nbsp;<strong>新建稽核</strong>
+				</div>
+			</div>
+		</div>
+		<div class="othermain_wrap clearFloat">
+			<div class="othermain_left1 othermain_left2">
+				<dl>
+					<dt>模型稽核</dt>
+
+					<dd>
+						<a href="#">新建稽核</a>
+					</dd>
+					<dd>
+						<a href="#">模型逆向库</a>
+					</dd>
+					<dd>
+						<a href="#">数据标准库</a>
+					</dd>
+				</dl>
+				<dl>
+					<dt>稽核结果</dt>
+					<dd>
+						<a href="#">历史结果</a>
+					</dd>
+				</dl>
+			</div>
+			<div class="othermain_right">
+				<div class="section model_newlybulid_flow">
+					<div class="bottom_line">&nbsp;</div>
+					<div class="bottom_line_r1">&nbsp;</div>
+					<ul class="flow_list clearFloat">
+						<li class="active1">
+							<div>&nbsp;</div>上传模型</li>
+						<li>
+							<div>&nbsp;</div>逆向工程</li>
+						<li>
+							<div>&nbsp;</div>执行比对</li>
+						<li>
+							<div>&nbsp;</div>稽核结果</li>
+						<li>
+							<div>&nbsp;</div>稽核报告</li>
+					</ul>
+				</div>
+				<div class="section">
+					<div class="data_model_newlybuild">
+						<div class="upload_wrap">
+							<form>
+								<div class="form-group">
+									<label for="newbuild_name">新建稽核名称</label>
+									<input type="text" class="form-control" id="newbuild_name" placeholder="集团公司BOSS三户域数据模型稽核">
+									<label for="upload_file">上传数据模型文件（*目前支持的格式有：ERM、SQL脚本）：</label>
+									<input id="upload_file" class="file-loading" name="file" type="file" data-show-caption="true">
+								</div>
+							</form>
+						</div>
+						<div class="pager_wrap">
+							<a href="model_auditing.html" class="btn btn-danger">上一步</a>
+							<a href="model_auditing_newlybuild2.html" class="btn btn-danger">下一步</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="foot"></div>
+
+		<script type="text/javascript" src="plugins/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+		<script type="text/javascript" src="plugins/bootstrap-fileinput-master/js/locales/zh.js"></script>
+		<script type="text/javascript">
+			$(function() {
+
+				$(".head").load("head.html")
+				$(".foot").load("foot.html")
+
+				//$("#upload_file").fileinput('destroy'); // 直接销毁
+				initFileInput("upload_file");
+			});
+			//初始化上传控件的样式
+			function initFileInput(ctrlName) {
+				var control = $('#' + ctrlName);
+				control.fileinput({
+					language: 'zh', //设置语言
+					uploadUrl: "upload", //上传的地址
+					allowedFileExtensions: ['erm', 'sql'], //接收的文件后缀
+					//uploadExtraData:{"id": 1, "fileName":'123.mp3'},
+					uploadAsync: true, //默认异步上传
+					showUpload: true, //是否显示上传按钮
+					showRemove: true, //显示移除按钮
+					showPreview: false, //是否显示预览
+					showCaption: false, //是否显示标题
+					browseClass: "btn btn-primary", //按钮样式
+					//dropZoneEnabled: true,//是否显示拖拽区域
+					//minImageWidth: 50, //图片的最小宽度
+					//minImageHeight: 50,//图片的最小高度
+					//maxImageWidth: 1000,//图片的最大宽度
+					//maxImageHeight: 1000,//图片的最大高度
+					//maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+					//minFileCount: 0,
+					//maxFileCount: 10, //表示允许同时上传的最大文件个数
+					enctype: 'multipart/form-data',
+					validateInitialCount: true,
+					previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+					msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+
+				}).on('filepreupload', function(event, data, previewId, index) { //上传中
+					var form = data.form,
+						files = data.files,
+						extra = data.extra,
+						response = data.response,
+						reader = data.reader;
+					console.log('文件正在上传');
+				}).on("fileuploaded", function(event, data, previewId, index) { //一个文件上传成功
+					console.log('文件上传成功！' + data.id);
+
+				}).on('fileerror', function(event, data, msg) { //一个文件上传失败
+					console.log('文件上传失败！' + data.id);
+
+				})
+			}
+		</script>
+	</body>
+
+</html>

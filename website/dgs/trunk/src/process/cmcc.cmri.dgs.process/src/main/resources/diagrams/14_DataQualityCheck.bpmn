@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="统计报表数据管理流程">
+  <collaboration id="Collaboration">
+    <participant id="DataQualityCheck" name="数据质量检查流程" processRef="DataQualityCheckProcess"></participant>
+  </collaboration>
+  <message id="startByMng" name="管理部门发起质量问题"></message>
+  <message id="startByReq" name="需求部门发起质量问题"></message>
+  <message id="startByDev" name="开发部门发起质量问题"></message>
+  <process id="DataQualityCheckProcess" name="数据质量检查流程" isExecutable="true">
+    <laneSet id="laneSet_DataQualityCheckProcess">
+      <lane id="lane1" name="各单位/其他部门">
+        <flowNodeRef>messagestartevent1</flowNodeRef>
+        <flowNodeRef>usertask1</flowNodeRef>
+      </lane>
+      <lane id="lane2" name="总部财务部">
+        <flowNodeRef>messagestartevent2</flowNodeRef>
+        <flowNodeRef>usertask3</flowNodeRef>
+        <flowNodeRef>usertask4</flowNodeRef>
+        <flowNodeRef>usertask6</flowNodeRef>
+        <flowNodeRef>endevent1</flowNodeRef>
+      </lane>
+      <lane id="lane3" name="总部业务支撑系统部">
+        <flowNodeRef>messagestartevent3</flowNodeRef>
+        <flowNodeRef>usertask2</flowNodeRef>
+        <flowNodeRef>usertask5</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="messagestartevent1" name="需求部门发起">
+      <messageEventDefinition messageRef="startByReq"></messageEventDefinition>
+    </startEvent>
+    <startEvent id="messagestartevent2" name="管理部门发起">
+      <messageEventDefinition messageRef="startByMng"></messageEventDefinition>
+    </startEvent>
+    <startEvent id="messagestartevent3" name="开发部门发起">
+      <messageEventDefinition messageRef="startByDev"></messageEventDefinition>
+    </startEvent>
+    <userTask id="usertask1" name="01.问题发现" activiti:candidateGroups="BR_Hubei_EM">
+      <documentation>发现统计数据质量问题，并提交总部财务部。</documentation>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="messagestartevent1" targetRef="usertask1"></sequenceFlow>
+    <userTask id="usertask2" name="01.问题发现" activiti:candidateGroups="HQ_Yewuzhichengbu_EM">
+      <documentation>发现统计数据质量问题，并提交总部财务部。</documentation>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="messagestartevent3" targetRef="usertask2"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="usertask3"></sequenceFlow>
+    <userTask id="usertask3" name="02.问题分析" activiti:candidateGroups="HQ_Caiwubu_EM">
+      <documentation>组织相关部门分析数据质量问题原因，评估造成业务影响。</documentation>
+    </userTask>
+    <sequenceFlow id="flow4" sourceRef="usertask2" targetRef="usertask3"></sequenceFlow>
+    <userTask id="usertask4" name="03.改进方案" activiti:candidateGroups="HQ_Caiwubu_EM">
+      <documentation>针对数据质量问题的讨论意见，确定统计数据质量改进方案。</documentation>
+    </userTask>
+    <sequenceFlow id="flow5" sourceRef="usertask3" targetRef="usertask4"></sequenceFlow>
+    <sequenceFlow id="flow6" sourceRef="usertask4" targetRef="usertask5"></sequenceFlow>
+    <userTask id="usertask5" name="04.问题改进" activiti:candidateGroups="HQ_Yewuzhichengbu_EM">
+      <documentation>按照质量改进方案，重新生产/提供相关统计数据，在综合统计系统中上线新数据。</documentation>
+    </userTask>
+    <sequenceFlow id="flow7" sourceRef="usertask5" targetRef="usertask6"></sequenceFlow>
+    <userTask id="usertask6" name="05.问题解决" activiti:candidateGroups="HQ_Caiwubu_EM">
+      <documentation>通知相关部门使用新数据。</documentation>
+    </userTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow8" sourceRef="usertask6" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="messagestartevent2" targetRef="usertask3"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Collaboration">
+    <bpmndi:BPMNPlane bpmnElement="Collaboration" id="BPMNPlane_Collaboration">
+      <bpmndi:BPMNShape bpmnElement="DataQualityCheck" id="BPMNShape_DataQualityCheck">
+        <omgdc:Bounds height="450.0" width="881.0" x="10.0" y="30.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="lane1" id="BPMNShape_lane1">
+        <omgdc:Bounds height="150.0" width="861.0" x="30.0" y="30.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="lane2" id="BPMNShape_lane2">
+        <omgdc:Bounds height="150.0" width="861.0" x="30.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="lane3" id="BPMNShape_lane3">
+        <omgdc:Bounds height="150.0" width="861.0" x="30.0" y="330.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messagestartevent1" id="BPMNShape_messagestartevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="70.0" y="90.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messagestartevent2" id="BPMNShape_messagestartevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="70.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messagestartevent3" id="BPMNShape_messagestartevent3">
+        <omgdc:Bounds height="35.0" width="35.0" x="70.0" y="400.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="150.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="150.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
+        <omgdc:Bounds height="55.0" width="105.0" x="300.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
+        <omgdc:Bounds height="55.0" width="105.0" x="450.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask5" id="BPMNShape_usertask5">
+        <omgdc:Bounds height="55.0" width="105.0" x="580.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask6" id="BPMNShape_usertask6">
+        <omgdc:Bounds height="55.0" width="105.0" x="690.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="840.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="105.0" y="107.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="107.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="105.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="417.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="255.0" y="107.0"></omgdi:waypoint>
+        <omgdi:waypoint x="273.0" y="108.0"></omgdi:waypoint>
+        <omgdi:waypoint x="352.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="255.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="275.0" y="416.0"></omgdi:waypoint>
+        <omgdi:waypoint x="352.0" y="285.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="405.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="450.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="502.0" y="285.0"></omgdi:waypoint>
+        <omgdi:waypoint x="559.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="580.0" y="417.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="685.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="704.0" y="416.0"></omgdi:waypoint>
+        <omgdi:waypoint x="742.0" y="285.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="795.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="840.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="105.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="300.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
